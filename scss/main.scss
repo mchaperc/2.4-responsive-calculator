@@ -11,9 +11,12 @@ $gutter: 0em;
 body {
 	color: white;
 	background-color: rgb(254,246,235);
+	font-family: sans-serif;
 }
 
 $mobile: 700px;
+
+$grid-columns: 7;
 
 /**************************
 General Styling
@@ -28,6 +31,10 @@ General Styling
 	outline: none;
 }
 
+sup {
+	vertical-align: super;
+}
+
 /**************************
 Display Styling
 **************************/
@@ -35,7 +42,7 @@ Display Styling
 .display {
 	background-color: rgba(82,85,100,1);
 	height: 80px;
-	@include span-columns(12);
+	@include span-columns(7);
 	@include clearfix;
 	text-align: right;
 	padding-right: 1.5em;
@@ -57,7 +64,7 @@ button {
 	@include pad;
 	color: black;
 	height: 60px;
-	@include span-columns(3);
+	@include span-columns(1);
 	padding: 0;
 	border-style: none;
 	border: 1px solid black;
@@ -70,12 +77,15 @@ button:hover {
 }
 
 .zero {
-	@include span-columns(6);
-	border-bottom-left-radius: 10px
+	@include span-columns(2);
 }
 
 .calc-button-equals {
 	border-bottom-right-radius: 10px;
+}
+
+.tanh {
+	border-bottom-left-radius: 10px;
 }
 
 .calc-button-divide, 
@@ -91,13 +101,29 @@ button:hover {
 .calc-button-clear,
 .plus-minus,
 .calc-button-modulus,
-.calc-button-divide {
+.scientific {
 	background-color: rgb(116,130,143);
 	color: white;
 }
 
+.scientific {
+	font-weight: 100;
+}
+
 @include media(max-width $mobile) {
+	$grid-columns: 12 !global;
+
+	.scientific {
+		display: none;
+	}
 	.container {
 		padding: 30% 8%;
+	}
+	button {
+		@include span-columns(3);
+	}
+	.zero {
+		border-bottom-left-radius: 10px;
+		@include span-columns(6);
 	}
 }
