@@ -1,4 +1,4 @@
-// (function() {
+(function() {
 	
 	var arrayOfInstructions = [];
 	var result = 0;
@@ -53,6 +53,22 @@
 			} else {
 				equals();
 			}
+		} else if ((arrayOfInstructions.length === 2 && operator === '=') && (clickCounter === 1 && nthExp === true)) {
+			result = mapOfFunctions['x-n']();
+			changeContent(result);
+			displayNumber = '';
+			clearInstructions();
+			clickCounter = 0;
+			nthExp = false;
+			return;
+		} else if ((arrayOfInstructions.length === 2 && operator === '=') && (clickCounter === 1 && nthRoot === true)) {
+			result = mapOfFunctions['nth-root']();
+			changeContent(result);
+			displayNumber = '';
+			clearInstructions();
+			clickCounter = 0;
+			nthRoot = false;
+			return;
 		}
 		arrayOfInstructions.push(operator);
 	}
@@ -63,8 +79,9 @@
 		var button = event.target;
 		var science = button.getAttribute('data-key');
 		result = mapOfFunctions[science]();
-		arrayOfInstructions = [result];
-		displayNumber = result;
+		if (science != 'pi' && science != 'e') {
+			displayNumber = result;
+		}
 		changeContent(result);
 		displayNumber = '';
 		console.log(science);
@@ -110,7 +127,11 @@
     	myelement.innerHTML = result;
     }
 
-    //Object container for all scientific functions
+    //Object container for all scientific functions and variables to control x-n and nth-root
+
+    var clickCounter = 0;
+    var nthExp = false;
+    var nthRoot = false;
 
     var mapOfFunctions = {
 		'x2': function() {
@@ -121,10 +142,21 @@
 			var x = arrayOfInstructions[arrayOfInstructions.length-1];
 			return x*x*x;
 		},
-		// 'x-n': function() {
-		// 	var x = arrayOfInstructions[arrayOfInstructions.length-1];
-		// 	var n = 
-		// },
+		'x-n': function() {
+			if (clickCounter < 1 && nthExp === false) {
+				clickCounter += 1;
+				nthExp = true;
+				return arrayOfInstructions[0];
+			} else {
+				var x = arrayOfInstructions[0];
+				var n = arrayOfInstructions[1];
+				for (var i = 0; i < n-1; i++) {
+					result *= x;
+					console.log(result);
+				}
+				return result;
+			}
+		},
 		'sq-root': function() {
 			var x = arrayOfInstructions[arrayOfInstructions.length-1];
 			return Math.sqrt(x);
@@ -134,7 +166,17 @@
 			return Math.pow(x, 1/3);
 		},
 		'nth-root': function() {
-			var x = arrayOfInstructions[arrayOfInstructions.length-1];
+			if (clickCounter < 1 && nthRoot === false) {
+				console.log('stuff');
+				clickCounter += 1;
+				nthRoot = true;
+				return arrayOfInstructions[0]; 
+			} else {
+				var x = arrayOfInstructions[0];
+				var n = arrayOfInstructions[1];
+  				var y = Math.pow(Math.abs(x), 1/n);
+  				return x < 0 ? -y : y;
+			}
 		},
 		'log': function() {
 			var x = arrayOfInstructions[arrayOfInstructions.length-1];
@@ -166,16 +208,14 @@
 		},
 		'pi': function() {
 			var pi = Math.PI.toFixed(7).toString();
-			displayNumber = pi;
 			arrayOfInstructions.push(pi);
-			changeContent(pi);
+			return pi;
 		},
 		'e': function() {
 			var e = Math.E.toFixed(7).toString();
-			displayNumber = e;
 			arrayOfInstructions.push(e);
-			changeContent(e);
+			return e
 		}
 	}
 
-// })();
+})();
