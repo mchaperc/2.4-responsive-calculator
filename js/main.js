@@ -3,6 +3,7 @@
 	var arrayOfInstructions = [];
 	var result = 0;
 	var displayNumber = '';
+	var storedValue = '';
 
 	//Adding event listeners to each button
 
@@ -20,6 +21,10 @@
 
 	[].forEach.call(document.querySelectorAll('.scientific'), function(element){
 	  element.addEventListener('click', scientificFunc);
+	}, false);
+
+	[].forEach.call(document.querySelectorAll('.memory'), function(element){
+	  element.addEventListener('click', memoryFunc);
 	}, false);
 
 	//Function for adding the number that's been pressed to the array of instructions
@@ -84,6 +89,13 @@
 		}
 		changeContent(result);
 		displayNumber = '';
+	}
+
+	function memoryFunc(event) {
+		var button = event.target;
+		var memory = button.getAttribute('data-key');
+		console.log(memory);
+		mapOfFunctions[memory]();
 	}
 
 	//Function for handling the calculation of current entries in the array of instructions
@@ -223,6 +235,31 @@
 			var e = Math.E.toFixed(7).toString();
 			arrayOfInstructions.push(e);
 			return e
+		},
+		'MS': function() {
+			storedValue = displayNumber;
+			console.log(storedValue);
+			console.log(displayNumber);
+			for (var i = 0; i < displayNumber.length; i++) {
+				arrayOfInstructions.pop();
+			}
+			displayNumber = '';
+			console.log(displayNumber);
+			return;
+		},
+		'MC': function() {
+			storedValue = '';
+		},
+		'MR': function() {
+			displayNumber = storedValue;
+			arrayOfInstructions.push(storedValue);
+			changeContent(storedValue);
+		},
+		'M+': function() {
+			storedValue = eval(storedValue + '+' + displayNumber).toString();
+		},
+		'M-': function () {
+			storedValue = eval(storedValue + '-' + displayNumber).toString();
 		}
 	}
 

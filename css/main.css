@@ -21,7 +21,7 @@ General Styling
   max-width: 980px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 10%; }
+  padding-top: 1%; }
   .container::after {
     clear: both;
     content: "";
@@ -36,6 +36,16 @@ sup {
 /**************************
 Display Styling
 **************************/
+header {
+  width: 60%;
+  margin: 2em auto;
+  color: black;
+  text-align: center; }
+
+.intro {
+  font-size: 2em;
+  font-family: sans-serif; }
+
 .display {
   background-color: #525564;
   height: 80px;
@@ -114,8 +124,36 @@ button:hover {
 .scientific {
   font-weight: 100; }
 
+.memory {
+  background-color: #c25b56;
+  color: #fef6eb;
+  float: left;
+  display: block;
+  margin-right: 0%;
+  width: 20%;
+  margin-right: 0; }
+  .memory:last-child {
+    margin-right: 0; }
+
+.memory:first-child {
+  border-bottom-left-radius: 10px; }
+
+.memory:last-child {
+  border-bottom-right-radius: 10px; }
+
+.memory-container {
+  float: left;
+  display: block;
+  margin-right: 0%;
+  width: 71.42857%;
+  margin-left: 14.28571%; }
+  .memory-container:last-child {
+    margin-right: 0; }
+
 @media screen and (max-width: 700px) {
   .scientific {
+    display: none; }
+  .memory {
     display: none; }
   .container {
     padding: 30% 8%; }

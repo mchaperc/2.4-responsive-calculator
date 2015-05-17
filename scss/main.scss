@@ -24,7 +24,7 @@ General Styling
 
 .container {
 	@include outer-container(980px);
-	padding-top: 10%;
+	padding-top: 1%;
 }
 
 * {
@@ -38,6 +38,18 @@ sup {
 /**************************
 Display Styling
 **************************/
+
+header {
+	width: 60%;
+	margin: 2em auto;
+	color: black;
+	text-align: center;
+}
+
+.intro {
+	font-size: 2em;
+	font-family: sans-serif;
+}
 
 .display {
 	background-color: rgba(82,85,100,1);
@@ -110,10 +122,33 @@ button:hover {
 	font-weight: 100;
 }
 
+.memory {
+	background-color: rgb(194, 91, 86);
+	color: rgb(254,246,235);
+	@include span-columns(1 of 5);
+	@include omega();
+}
+
+.memory:first-child {
+	border-bottom-left-radius: 10px;
+}
+
+.memory:last-child {
+	border-bottom-right-radius: 10px;
+}
+
+.memory-container {
+	@include span-columns(5);
+	@include shift(1);
+}
+
 @include media(max-width $mobile) {
 	$grid-columns: 12 !global;
 
 	.scientific {
+		display: none;
+	}
+	.memory {
 		display: none;
 	}
 	.container {
