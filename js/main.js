@@ -84,7 +84,6 @@
 		}
 		changeContent(result);
 		displayNumber = '';
-		console.log(science);
 	}
 
 	//Function for handling the calculation of current entries in the array of instructions
@@ -122,7 +121,6 @@
 	//Function for updating the content displayed in the calculator
 
 	function changeContent (result) {
-		console.log(result);
     	var myelement = document.getElementById("result");
     	myelement.innerHTML = result;
     }
@@ -146,13 +144,18 @@
 			if (clickCounter < 1 && nthExp === false) {
 				clickCounter += 1;
 				nthExp = true;
+				if (displayNumber.length > 1) {
+					for (var i = 0; i < displayNumber.length; i++) {
+						arrayOfInstructions.pop();
+					}
+					arrayOfInstructions.push(displayNumber);
+				}
 				return arrayOfInstructions[0];
 			} else {
 				var x = arrayOfInstructions[0];
 				var n = arrayOfInstructions[1];
 				for (var i = 0; i < n-1; i++) {
 					result *= x;
-					console.log(result);
 				}
 				return result;
 			}
@@ -167,9 +170,14 @@
 		},
 		'nth-root': function() {
 			if (clickCounter < 1 && nthRoot === false) {
-				console.log('stuff');
 				clickCounter += 1;
 				nthRoot = true;
+				if (displayNumber.length > 1) {
+					for (var i = 0; i < displayNumber.length; i++) {
+						arrayOfInstructions.pop();
+					}
+					arrayOfInstructions.push(displayNumber);
+				}
 				return arrayOfInstructions[0]; 
 			} else {
 				var x = arrayOfInstructions[0];
