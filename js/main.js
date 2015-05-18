@@ -109,7 +109,7 @@
 	//Function for handling the plus-minus button
 
 	function plusMinus() {
-		var x = arrayOfInstructions[arrayOfInstructions.length-1]
+		var x = displayNumber;
 		if (x >= 0) {
 			x = '-' + x;
 			displayNumber = x;
@@ -166,10 +166,7 @@
 			} else {
 				var x = arrayOfInstructions[0];
 				var n = arrayOfInstructions[1];
-				for (var i = 0; i < n-1; i++) {
-					result *= x;
-				}
-				return result;
+				return Math.pow(x, n);
 			}
 		},
 		'sq-root': function() {
