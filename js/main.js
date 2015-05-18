@@ -1,4 +1,4 @@
-(function() {
+// (function() {
 	
 	var arrayOfInstructions = [];
 	var result = 0;
@@ -32,9 +32,18 @@
 	function numberPressed(event) {
 		var button = event.target;
 		var number = button.textContent;
-		arrayOfInstructions.push(number);
 		displayNumber+=number;
+		if (displayNumber.length > 1) {
+			for (var i = 0; i < displayNumber.length; i++) {
+				if (!isNaN(arrayOfInstructions[arrayOfInstructions.length-1])) {
+					arrayOfInstructions.pop();
+				}
+							}
+		}
+		arrayOfInstructions.push(displayNumber);
 		changeContent(displayNumber);
+		console.log(displayNumber);
+		console.log(arrayOfInstructions);
 	}
 
 	//Function for adding the operator that's been pressed to the array of instructions
@@ -44,7 +53,7 @@
 		var button = event.target;
 		var operator = button.textContent;
 		displayNumber = '';
-		if(operator === 'AC') {
+		if (operator === 'AC') {
 			clearInstructions();
 			changeContent(result);
 			return;
@@ -102,7 +111,6 @@
 
 	function equals() {
 		result = eval(arrayOfInstructions.join(''));
-		arrayOfInstructions = [result];
 		changeContent(result);
 	}
 
@@ -116,8 +124,7 @@
 			changeContent(displayNumber);
 			arrayOfInstructions[arrayOfInstructions.length-1] = x;
 		} else if (x < 0) {
-			x.charAt(0) = '';
-			arrayOfInstructions[arrayOfInstructions.length-1] = x;
+			arrayOfInstructions[arrayOfInstructions]
 		} else {
 			false;
 		}
@@ -263,4 +270,4 @@
 		}
 	}
 
-})();
+// })();
