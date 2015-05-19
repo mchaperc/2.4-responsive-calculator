@@ -1,4 +1,4 @@
-// (function() {
+(function() {
 
 
 	//Event handler assignments
@@ -48,6 +48,57 @@
 
 	function operatorPressed(event) {
 		var operator = event.target.getAttribute('data-key');
+		switch(pendingOperation) {
+			case undefined:
+			temporaryNumber = displayNumber;
+			pendingOperation = operator;
+			displayNumber = '';
+			break;
+			case '%':
+				pendingOperation = operator;
+				displayNumber = '';
+				break;
+			case '+':
+				if (calculation === 0) {
+					calculation = Number(displayNumber) + Number(temporaryNumber);
+				} else {
+					calculation += Number(displayNumber);
+				}
+				$display.textContent = calculation.toString();
+				pendingOperation = operator;
+				displayNumber = '';
+				break;
+			case '-':
+				if (calculation === 0) {
+					calculation = Number(temporaryNumber) - Number(displayNumber);
+				} else {
+					calculation -= Number(displayNumber);
+				}
+				$display.textContent = calculation.toString();
+				pendingOperation = operator;
+				displayNumber = '';
+				break;
+			case '*':
+				if (calculation === 0) {
+					calculation = Number(temporaryNumber) * Number(displayNumber);
+				} else {
+					calculation *= Number(displayNumber);
+				}
+				$display.textContent = calculation.toString();
+				pendingOperation = operator;
+				displayNumber = '';
+				break;
+			case '/':
+				if (calculation === 0) {
+					calculation = Number(temporaryNumber) / Number(displayNumber);
+				} else {
+					calculation /= Number(displayNumber);
+				}
+				$display.textContent = calculation.toString();
+				pendingOperation = operator;
+				displayNumber = '';
+				break;
+		}
 
 		if (operator === '=' && clickCounter === 1 && nthExp === true) {
 			calculation = mapOfFunctions['x-n']();
@@ -65,9 +116,8 @@
 			clickCounter = 0;
 			nthRoot = false;
 			return;
-		}
-
-		if (operator === 'AC') {
+		} else {
+			if (operator === 'AC') {
 			calculation = 0;
 			displayNumber = '0';
 			pendingOperation = undefined;
@@ -81,52 +131,17 @@
 				displayNumber = Math.abs(Number(displayNumber));
 				$display.textContent = displayNumber;
 			}
-		} else if (operator === '.') {
-			displayNumber+= '.';
-			$display.textContent = displayNumber;
-			temporaryNumber = displayNumber;
-		} else if (operator === '%') {
-			displayNumber = (Number(displayNumber) / 100).toString();
-			$display.textContent = displayNumber;
-			temporaryNumber = Number(displayNumber);
-			pendingOperation = operator;
-			console.log(pendingOperation);
-		} else {
-
-			switch(pendingOperation) {
-				case '%':
-					pendingOperation = operator;
-					calculation = Number(temporaryNumber)
-					displayNumber = '';
-					break;
-				case undefined:
-					pendingOperation = operator;
-					displayNumber = '';
-					break;
-				case '+':
-					calculation += Number(displayNumber);	
-					$display.textContent = calculation.toString();
-					pendingOperation = operator;
-					displayNumber = '';
-					break;
-				case '-':
-					calculation -= Number(displayNumber);
-					$display.textContent = calculation.toString();
-					pendingOperation = operator;
-					displayNumber = '';
-					break;
-				case '*':
-					calculation *= Number(displayNumber);
-					$display.textContent = calculation.toString();
-					pendingOperation = operator;
-					displayNumber = '';
-					break;
-				case '/':
-					calculation /= Number(displayNumber);
-					$display.textContent = calculation.toString();
-					pendingOperation = operator;
-					displayNumber = '';
-					break;
+			} else if (operator === '.') {
+				temporaryNumber+= '.';
+				displayNumber = temporaryNumber;
+				$display.textContent = displayNumber;
+				pendingOperation = undefined;
+			} else if (operator === '%') {
+				displayNumber = (Number(temporaryNumber) / 100).toString();
+				$display.textContent = displayNumber;
+				temporaryNumber = Number(displayNumber);
+				pendingOperation = operator;
+				console.log(pendingOperation);
 			}
 		}
 	}
@@ -150,32 +165,20 @@
 	}
 
 	function updateDisplayAndCalc(number) {
-		if(pendingOperation === undefined) {
-			if (displayNumber === '0') {
-				displayNumber = number.toString();
-			} else {
-				displayNumber += number.toString();
-			}
-			if (calculation === 0) {
-				calculation = number;
-			} else {
-				if (temporaryNumber.length > 0) {
-					calculation = Number(displayNumber);
-				} else {
-					calculation = Number(calculation.toString() + displayNumber);
-				}
-			}
-		} else {
-			if (displayNumber === '') {
-				displayNumber = number.toString();
-			} else {
-				displayNumber += number.toString();
-			}
+		if(pendingOperation === '.') {
+			displayNumber += number.toString();
+			$display.textContent = displayNumber;
 		}
-		$display.textContent = displayNumber;
+
+		if (displayNumber === '0') {
+			displayNumber = number.toString();
+			$display.textContent = displayNumber;
+		} else {
+			displayNumber += number.toString();
+			$display.textContent = displayNumber;
+		}
 
 	}
-
 
 	var clickCounter = 0;
     var nthExp = false;
@@ -306,4 +309,4 @@
 	}
 
 
-// })();
+})();
